@@ -1,81 +1,82 @@
-# NestJS with Prisma and PostgreSQL Docker Setup
+## GoPassi TaskApp Backend - NestJS + Prisma + PostgreSQL
 
-This project provides a complete Dockerized setup for a NestJS application with
-Prisma ORM and PostgreSQL database.
+### Requisitos previos
 
-## Prerequisites
+- Docker instalado (Descargar Docker)
+- Docker Compose (viene incluido con Docker Desktop)
 
-- Docker installed
-- Docker Compose installed
-- Node.js (for local development)
+### Configuración inicial
 
-## Getting Started
-
-### 1. Clone the repository
+1. Clonar el repositorio:
 
 ```bash
 git clone https://github.com/brandox02/gopassi-taskapp-backend
 cd gopassi-taskapp-backend
 ```
 
-### 2. Set up environment variables
+2. Configurar variables de entorno:
 
-Copy the example environment file:
+Crear archivo `.env` y copiar dentro de este, el contenido del ya existente
+archivo `.env.example`
 
 ```bash
 cp .env.example .env
 ```
 
-Edit the .env file with your actual credentials:
+Puedes editar el archivo `.env` con tus credenciales si lo requieres pero por
+defecto funciona con los valores proporcionados.
+
+### Ejecución con Docker
+
+1. Construir y levantar los servicios:
 
 ```bash
-nano .env  # or use your preferred editor
+docker-compose up -d --build
 ```
 
-### 3. Install dependencies
+2. Aplicar migraciones de la base de datos:
 
 ```bash
-yarn install
+docker-compose exec app npx prisma migrate dev
 ```
 
-### 4. Start the services
+3. Generar cliente de Prisma:
 
 ```bash
-docker-compose up -d
+docker-compose exec app npx prisma generate
 ```
 
-This will start:
+### Acceder a la aplicación
 
-- PostgreSQL database on port 5432
-- NestJS application on port 3000
+- **API REST**: http://localhost:3000
+- **Documentación Swagger**: http://localhost:3000/api
+- **PostgreSQL**:
+  - Puerto: `5432` (o el configurado)
+  - Usuario: `postgres`
+  - Contraseña: `postgres`
 
-### 5. Apply database migrations
+### 🛠 Comandos útiles
 
-After the containers are running, apply the Prisma migrations:
+Ver logs de la aplicación:
 
 ```bash
-docker-compose exec app yarn prisma migrate dev
+docker-compose logs -f app
 ```
 
-### 6. Generate Prisma client
+Detener los contenedores:
 
 ```bash
-docker-compose exec app yarn prisma generate
+docker-compose down
 ```
 
-### 7. Access the application
-
-The NestJS application will be available at: http://localhost:3000
-
-## Development Workflow
-
-#### Running the application in development mode
-
-The docker-compose setup is already configured for development with
-hot-reloading. Just:
+Reiniciar todo el entorno:
 
 ```bash
-docker-compose up -d
+docker-compose down && docker-compose up -d --build
 ```
 
-Then visit http://localhost:3000
+Ejecutar tests:
+
+```bash
+docker-compose exec app yarn test
+```
