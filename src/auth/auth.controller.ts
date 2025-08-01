@@ -5,6 +5,7 @@ import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
 import { LoginUserDto } from './dto/login-user.dto';
+import { UserNotFoundException } from 'src/users/exceptions/user-not-found.exception';
 
 @ApiTags('Authentication') // Agrupa todos los endpoints bajo esta sección
 @Controller('auth')
@@ -52,7 +53,13 @@ export class AuthController {
         description: 'Invalid request format'
     })
     async login(@Request() req) {
-        return this.authService.login(req.user);
+        const access_token = await this.authService.login(req.user);
+        const responseUser = await this.usersService.findUserByUsername(req.user.username)
+        if (!responseUser) {
+            throw new UserNotFoundException(req.user.username);
+        }
+        const { password, ...user } = responseUser;
+        return { access_token, user }
     }
 
     @Post('register')
@@ -124,6 +131,9 @@ export class AuthController {
     })
     async create(@Body() createUserDto: CreateUserDto) {
         const createdUser = await this.usersService.createUser(createUserDto);
-        return this.authService.register(createdUser.username, createdUser.id)
+        const access_token = await this.authService.register(createdUser.username, createdUser.id)
+        return {
+            user: createdUser, access_token
+        }
     }
 }

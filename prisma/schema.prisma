@@ -21,4 +21,14 @@ model User {
   fullname  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  Task Task[]
+}
+
+model Task {
+  id     Int     @id @default(autoincrement())
+  title  String
+  done   Boolean @default(false)
+  userId Int
+  user   User    @relation(fields: [userId], references: [id])
 }
