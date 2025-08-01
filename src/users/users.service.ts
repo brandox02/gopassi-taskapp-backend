@@ -15,7 +15,7 @@ export class UsersService {
         });
 
         if (existingUser) {
-            throw new ConflictException('Username or email already exists');
+            throw new ConflictException('El nombre de usuario o el correo electrónico ya están en uso');
         }
 
         const hashedPassword = await bcrypt.hash(createUserDto.password, 10);

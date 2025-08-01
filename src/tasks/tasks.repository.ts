@@ -16,6 +16,13 @@ export class TasksRepository {
                 ...createTaskDto,
                 userId,
             },
+            include: {
+                user: {
+                    select: {
+                        id: true, username: true, fullname: true
+                    }
+                }
+            }
         });
     }
 
@@ -40,7 +47,8 @@ export class TasksRepository {
                     select: {
                         id: true, username: true, fullname: true
                     }
-                }
+                },
+
             }
         });
 
@@ -61,6 +69,13 @@ export class TasksRepository {
         return this.prisma.task.update({
             where: { id },
             data: updateTaskDto,
+            include: {
+                user: {
+                    select: {
+                        id: true, username: true, fullname: true
+                    }
+                }
+            }
         });
     }
 
@@ -69,6 +84,13 @@ export class TasksRepository {
 
         await this.prisma.task.delete({
             where: { id },
+            include: {
+                user: {
+                    select: {
+                        id: true, username: true, fullname: true
+                    }
+                }
+            }
         });
     }
 }

@@ -53,7 +53,7 @@ export class AuthController {
         description: 'Invalid request format'
     })
     async login(@Request() req) {
-        const access_token = await this.authService.login(req.user);
+        const { access_token } = await this.authService.login(req.user);
         const responseUser = await this.usersService.findUserByUsername(req.user.username)
         if (!responseUser) {
             throw new UserNotFoundException(req.user.username);
@@ -131,7 +131,7 @@ export class AuthController {
     })
     async create(@Body() createUserDto: CreateUserDto) {
         const createdUser = await this.usersService.createUser(createUserDto);
-        const access_token = await this.authService.register(createdUser.username, createdUser.id)
+        const { access_token } = await this.authService.register(createdUser.username, createdUser.id)
         return {
             user: createdUser, access_token
         }
