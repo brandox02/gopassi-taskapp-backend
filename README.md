@@ -1,4 +1,4 @@
-## GoPassi TaskApp Backend - NestJS + Prisma + PostgreSQL
+## TaskApp Backend - NestJS + Prisma + PostgreSQL
 
 ### Descripción
 
@@ -86,16 +86,18 @@ defecto funciona con los valores proporcionados.
 1. Construir y levantar los servicios:
 
 ```bash
-docker-compose up -d --build
+docker-compose up --build
 ```
 
-2. Aplicar migraciones de la base de datos:
+2. Abrir nueva terminal y localizarse en nuestra folder gopassi-taskapp-backend
+
+3. En esta nueva terminal, aplicar migraciones de la base de datos:
 
 ```bash
 docker-compose exec app npx prisma migrate dev
 ```
 
-3. Generar cliente de Prisma:
+4. En esta misma nueva terminal, generar cliente de Prisma:
 
 ```bash
 docker-compose exec app npx prisma generate
@@ -110,7 +112,7 @@ docker-compose exec app npx prisma generate
   - Usuario: `postgres`
   - Contraseña: `postgres`
 
-### 🛠 Comandos útiles
+### Comandos útiles
 
 Ver logs de la aplicación:
 
