@@ -86,18 +86,16 @@ defecto funciona con los valores proporcionados.
 1. Construir y levantar los servicios:
 
 ```bash
-docker-compose up --build
+docker-compose up -d --build
 ```
 
-2. Abrir nueva terminal y localizarse en nuestra folder gopassi-taskapp-backend
-
-3. En esta nueva terminal, aplicar migraciones de la base de datos:
+2. Aplicar migraciones de la base de datos:
 
 ```bash
 docker-compose exec app npx prisma migrate dev
 ```
 
-4. En esta misma nueva terminal, generar cliente de Prisma:
+3. Generar cliente de Prisma:
 
 ```bash
 docker-compose exec app npx prisma generate
