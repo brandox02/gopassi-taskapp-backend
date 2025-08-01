@@ -28,7 +28,6 @@ export class TasksRepository {
 
     async findAll(userId: number): Promise<Task[]> {
         return this.prisma.task.findMany({
-            where: { userId },
             include: {
                 user: {
                     select: {
@@ -41,7 +40,6 @@ export class TasksRepository {
 
     async findOne(userId: number, id: number): Promise<Task> {
         const task = await this.prisma.task.findFirst({
-            where: { id, userId },
             include: {
                 user: {
                     select: {
@@ -79,10 +77,10 @@ export class TasksRepository {
         });
     }
 
-    async remove(userId: number, id: number): Promise<void> {
+    async remove(userId: number, id: number): Promise<Task> {
         await this.findOne(userId, id);
 
-        await this.prisma.task.delete({
+        return this.prisma.task.delete({
             where: { id },
             include: {
                 user: {

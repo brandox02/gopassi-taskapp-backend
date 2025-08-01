@@ -8,6 +8,7 @@ import { TasksService } from './tasks/tasks.service';
 import { TasksModule } from './tasks/tasks.module';
 import { TasksRepository } from './tasks/tasks.repository';
 
+
 @Module({
   imports: [AuthModule, UsersModule, PrismaModule, TasksModule],
   controllers: [AppController],
